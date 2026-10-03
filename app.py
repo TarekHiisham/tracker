@@ -9,7 +9,7 @@ app = Flask(__name__)
 
 DB_PATH = os.environ.get("DB_PATH", "visits.db")
 LOG_TOKEN = os.environ.get("LOG_TOKEN")          # secret to view /logs
-EXAM_FILENAME = os.environ.get("EXAM_FILENAME", "exam.pdf")  # file inside exams/
+EXAM_FILENAME = os.environ.get("DOCUMENT", "CV Resturant.pdf")  # file inside exams/
 EXAM_TITLE = os.environ.get("EXAM_TITLE", "Exam")
 
 
