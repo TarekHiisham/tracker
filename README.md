@@ -1,39 +1,38 @@
-# Exam Open Tracker
+# Document Open Tracker
 
-A small page with your exam's logo and an "Open Exam" button. When a student
-clicks it, the server records the time and their IP address, then delivers
-the PDF.
+A link that shows a preview card when shared, then opens your PDF
+automatically. Every open is logged with IP address and approximate
+country/region.
 
-## 1. Add your exam
-Put your PDF file in the `exams/` folder and name it `exam.pdf`
-(or set the EXAM_FILENAME environment variable to match your filename).
+## 1. Add your PDF
+Put your file in the `documents/` folder and name it `document.pdf`
+(or set the DOC_FILENAME environment variable to match your filename).
 
 ## 2. Run locally
     pip install -r requirements.txt
     export LOG_TOKEN="choose-a-long-random-string"
     python app.py
-Open http://127.0.0.1:8000
+Open http://127.0.0.1:8000 -- it redirects straight to the PDF.
 
 ## 3. See who opened it
     http://127.0.0.1:8000/logs?token=choose-a-long-random-string
 
-## 4. Deploy for real students (public link)
-1. Push this folder to a GitHub repo (make sure exams/exam.pdf is included).
+## 4. Deploy for a public link
+1. Push this folder to a GitHub repo (make sure documents/document.pdf is included).
 2. On render.com: New -> Blueprint -> select the repo (uses render.yaml).
-3. Share the resulting link, e.g. https://exam-tracker.onrender.com, with your students.
+3. Share the resulting link, e.g. https://document-tracker.onrender.com
 4. In Render's dashboard -> Environment, copy LOG_TOKEN, then visit
-   https://YOUR-URL/logs?token=THE_TOKEN to see every open: time, IP, and
-   (if you used personalized links) which student.
+   https://YOUR-URL/logs?token=THE_TOKEN to see every open: time, IP, country.
 
-## Optional: per-student links
-Send each student a link like:
-   https://your-url.onrender.com/?student=jane_doe
-Their name/ID will show up next to their IP in /logs, so you can match
-opens to students directly instead of only matching by IP.
+## Link preview
+The root page automatically renders page 1 of your PDF to an image
+(static/preview.png, generated once) and sets it as the Open Graph /
+Twitter Card image, so apps like WhatsApp and Facebook show a preview
+of your document when the link is shared. Visitors are redirected to
+the PDF itself immediately (no click needed).
 
 ## Notes
-- Render's free disk resets on redeploy; the dashboard "Logs" tab (OPEN ... lines)
-  is the durable record, or add a persistent disk/Postgres for the database.
-- Tell students the page records opens (the on-page note does this) -- this is
-  standard practice for exam delivery and keeps things transparent and compliant
-  with privacy rules like GDPR.
+- Render's free disk resets on redeploy; for a durable log, add a
+  persistent disk or Postgres.
+- The page records visitor IPs -- let recipients know if that matters
+  for your use case.
